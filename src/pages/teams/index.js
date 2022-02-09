@@ -1,4 +1,7 @@
 import * as React from 'react'
+import Amplify, { API } from 'aws-amplify'
+import config from '../../aws-exports'
+import { createTeamData } from '../../graphql/mutations'
 import { getTeamByName } from '../../utils/api-util'
 import ResponsiveAppBar from '../../components/ResponsiveAppBar'
 import { styled } from '@mui/material/styles'
@@ -17,6 +20,8 @@ import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
+Amplify.configure(config)
+
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props
     return <IconButton {...other} />
@@ -31,12 +36,50 @@ const ExpandMore = styled((props) => {
 // 2. Nextjs will execute this component function AFTER getStaticProps
 const TeamList = (props) => {
     const [expanded, setExpanded] = React.useState(false)
+
     const { team } = props
 
-
     // handles adding a team
-    const handleAddTeam = () => {
-        console.log('Gonna add this team eventually')
+    const handleSaveTeam = async () => {
+        console.log(`Gonna add the team: ${team.teams[0].strTeam} now`)
+        const newTeamToSave = {
+            idTeam: team.teams[0].idTeam,
+            team: team.teams[0].strTeam,
+            teamShort: team.teams[0].strTeamShort,
+            teamBadge: team.teams[0].strTeamBadge,
+            teamJersey: team.teams[0].strTeamJersey,
+            teamLogo: team.teams[0].strTeamLogo,
+            teamBanner: team.teams[0].strTeamBanner,
+            teamDescriptionEn: team.teams[0].strDescriptionEN,
+            formedYear: team.teams[0].intFormedYear,
+            sport: team.teams[0].strSport,
+            league: team.teams[0].strLeague,
+            idLeague: team.teams[0].idLeague,
+            stadium: team.teams[0].strStadium,
+            stadiumThumb: team.teams[0].strStadiumThumb,
+            stadiumDescription: team.teams[0].strStadiumDescription,
+            stadiumLocation: team.teams[0].strStadiumLocation,
+            stadiumCapacity: team.teams[0].intStadiumCapacity,
+            website: team.teams[0].strWebsite,
+            facebook: team.teams[0].strFacebook,
+            twitter: team.teams[0].strTwitter,
+            instagram: team.teams[0].strInstagram,
+            youtube: team.teams[0].strYoutube,
+            manager: team.teams[0].strManager,
+            country: team.teams[0].strCountry,
+        }
+
+        try {
+            const response = await API.graphql({
+                query: createTeamData,
+                variables: { input: newTeamToSave },
+                authMode: 'API_KEY'
+            })
+            console.log('Created a new team')
+            console.log(response)
+        } catch (error) {
+            console.log("Save team error", error)
+        }
     }
 
     // handles deleting a team
@@ -78,7 +121,7 @@ const TeamList = (props) => {
                     />
 
                     <CardActions disableSpacing>
-                        <IconButton aria-label="add" onClick={handleAddTeam} >
+                        <IconButton aria-label="add" onClick={handleSaveTeam} >
                             <AddIcon />
                         </IconButton>
                         <IconButton aria-label="delete" onClick={handleDeleteTeam} >
@@ -98,10 +141,6 @@ const TeamList = (props) => {
                         <CardContent>
                             <Typography gutterBottom variant="h6">
                                 Founded: {team.teams[0].intFormedYear}
-                            </Typography>
-
-                            <Typography gutterBottom variant="h6">
-                                Head Coach: {team.teams[0].strManager}
                             </Typography>
 
                             <Typography gutterBottom variant="h6">

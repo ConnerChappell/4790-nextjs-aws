@@ -1,0 +1,6 @@
+{
+  "AppSyncApiName": "4790nextjsaws",
+  "DynamoDBBillingMode": "PAY_PER_REQUEST",
+  "DynamoDBEnableServerSideEncryption": false,
+  "AuthModeLastUpdated": "2022-02-08T22:33:00.480Z"
+}
