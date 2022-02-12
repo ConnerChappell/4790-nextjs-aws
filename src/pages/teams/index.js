@@ -106,7 +106,7 @@ const TeamList = (props) => {
                 {teamList.map((team) => (
                     <Card
                         key={team.id}
-                        sx={{ maxWidth: 350, mt: 3, mb: 3, boxShadow: 4 }}>
+                        sx={{ maxWidth: 350, my: 3, mx: 1.5, boxShadow: 4 }}>
                         <CardHeader
                             avatar={
                                 <CardMedia
