@@ -1,8 +1,9 @@
 import * as React from 'react'
 import Amplify, { API } from 'aws-amplify'
 import config from '../../aws-exports'
-import { createTeamData } from '../../graphql/mutations'
 import { getTeamByName } from '../../utils/api-util'
+import { createTeamData } from '../../graphql/mutations'
+import { listTeamData } from '../../graphql/queries'
 import ResponsiveAppBar from '../../components/ResponsiveAppBar'
 import { styled } from '@mui/material/styles'
 import {
@@ -37,7 +38,8 @@ const ExpandMore = styled((props) => {
 const TeamList = (props) => {
     const [expanded, setExpanded] = React.useState(false)
 
-    const { team } = props
+    const { teamList } = props
+    console.log(teamList)
 
     // handles adding a team
     const handleSaveTeam = async () => {
@@ -73,12 +75,12 @@ const TeamList = (props) => {
             const response = await API.graphql({
                 query: createTeamData,
                 variables: { input: newTeamToSave },
-                authMode: 'API_KEY'
+                authMode: 'API_KEY',
             })
             console.log('Created a new team')
             console.log(response)
         } catch (error) {
-            console.log("Save team error", error)
+            console.log('Save team error', error)
         }
     }
 
@@ -95,69 +97,82 @@ const TeamList = (props) => {
     return (
         <>
             <ResponsiveAppBar />
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Card sx={{ maxWidth: 350, mt: 5, mb: 5, boxShadow: 4 }}>
-                    <CardHeader
-                        avatar={
-                            <CardMedia
-                                component="img"
-                                height="90"
-                                image={team.teams[0].strTeamBadge}
-                            />
-                        }
-                        title={team.teams[0].strTeam}
-                        subheader={team.teams[0].strLeague}
-                    />
+            <Box
+                sx={{
+                    display: 'flex',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                }}>
+                {teamList.map((team) => (
+                    <Card
+                        key={team.id}
+                        sx={{ maxWidth: 350, mt: 3, mb: 3, boxShadow: 4 }}>
+                        <CardHeader
+                            avatar={
+                                <CardMedia
+                                    component="img"
+                                    height="90"
+                                    image={team.teamBadge}
+                                />
+                            }
+                            title={team.team}
+                            subheader={team.league}
+                        />
 
-                    <CardMedia
-                        sx={{
-                            mx: 'auto',
-                            padding: '0 16px 16px 16px',
-                            width: '100%',
-                        }}
-                        component="img"
-                        image={team.teams[0].strTeamJersey}
-                        alt="Team Jersey"
-                    />
+                        <CardMedia
+                            sx={{
+                                mx: 'auto',
+                                padding: '0 16px 16px 16px',
+                                width: '100%',
+                            }}
+                            component="img"
+                            image={team.teamJersey}
+                            alt="Team Jersey"
+                        />
 
-                    <CardActions disableSpacing>
-                        <IconButton aria-label="add" onClick={handleSaveTeam} >
-                            <AddIcon />
-                        </IconButton>
-                        <IconButton aria-label="delete" onClick={handleDeleteTeam} >
-                            <DeleteIcon />
-                        </IconButton>
+                        <CardActions disableSpacing>
+                            <IconButton
+                                aria-label="add"
+                                onClick={handleSaveTeam}>
+                                <AddIcon />
+                            </IconButton>
+                            <IconButton
+                                aria-label="delete"
+                                onClick={handleDeleteTeam}>
+                                <DeleteIcon />
+                            </IconButton>
 
-                        <ExpandMore
-                            expand={expanded}
-                            onClick={handleExpandClick}
-                            aria-expanded={expanded}
-                            aria-label="show more">
-                            <ExpandMoreIcon />
-                        </ExpandMore>
-                    </CardActions>
+                            <ExpandMore
+                                expand={expanded}
+                                onClick={handleExpandClick}
+                                aria-expanded={expanded}
+                                aria-label="show more">
+                                <ExpandMoreIcon />
+                            </ExpandMore>
+                        </CardActions>
 
-                    <Collapse in={expanded} timeout="auto" unmountOnExit>
-                        <CardContent>
-                            <Typography gutterBottom variant="h6">
-                                Founded: {team.teams[0].intFormedYear}
-                            </Typography>
+                        <Collapse in={expanded} timeout="auto" unmountOnExit>
+                            <CardContent>
+                                <Typography gutterBottom variant="h6">
+                                    Founded: {team.formedYear}
+                                </Typography>
 
-                            <Typography gutterBottom variant="h6">
-                                Stadium: {team.teams[0].strStadium}
-                            </Typography>
-                            <CardMedia
-                                component="img"
-                                width="auto"
-                                image={team.teams[0].strStadiumThumb}
-                                alt="Team Stadium"
-                            />
-                            <Typography gutterBottom variant="h6">
-                                Capacity: {team.teams[0].intStadiumCapacity}
-                            </Typography>
-                        </CardContent>
-                    </Collapse>
-                </Card>
+                                <Typography gutterBottom variant="h6">
+                                    Stadium: {team.stadium}
+                                </Typography>
+                                <CardMedia
+                                    component="img"
+                                    width="auto"
+                                    image={team.stadiumThumb}
+                                    alt="Team Stadium"
+                                />
+                                <Typography gutterBottom variant="h6">
+                                    Capacity: {team.stadiumCapacity}
+                                </Typography>
+                            </CardContent>
+                        </Collapse>
+                    </Card>
+                ))}
             </Box>
         </>
     )
@@ -165,13 +180,31 @@ const TeamList = (props) => {
 
 // 1. Nextjs will execute this function first. It is never visible to the client
 export async function getStaticProps() {
-    const fetchedTeam = await getTeamByName('Seattle%Seahawks')
+    let teamList = []
+
+    try {
+        const response = await API.graphql({
+            query: listTeamData,
+            authMode: 'API_KEY',
+        })
+        teamList = response.data.listTeamData.items
+    } catch (error) {
+        console.log('Retrieve team list error', error)
+    }
 
     return {
         props: {
-            team: fetchedTeam,
+            teamList,
         },
     }
+
+    // const fetchedTeam = await getTeamByName('Seattle Seahawks')
+
+    // return {
+    //     props: {
+    //         team: fetchedTeam,
+    //     },
+    // }
 }
 
 export default TeamList
