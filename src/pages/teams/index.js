@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Amplify, { API } from 'aws-amplify'
 import config from '../../aws-exports'
-import { getTeamByName } from '../../utils/api-util'
 import { createTeamData } from '../../graphql/mutations'
 import { listTeamData } from '../../graphql/queries'
 import ResponsiveAppBar from '../../components/ResponsiveAppBar'
@@ -197,14 +196,6 @@ export async function getStaticProps() {
             teamList,
         },
     }
-
-    // const fetchedTeam = await getTeamByName('Seattle Seahawks')
-
-    // return {
-    //     props: {
-    //         team: fetchedTeam,
-    //     },
-    // }
 }
 
 export default TeamList
