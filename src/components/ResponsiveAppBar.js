@@ -116,7 +116,7 @@ const ResponsiveAppBar = () => {
             stadiumThumb: fetchedTeam.teams[0].strStadiumThumb,
             stadiumDescription: fetchedTeam.teams[0].strStadiumDescription,
             stadiumLocation: fetchedTeam.teams[0].strStadiumLocation,
-            stadiumCapacity: fetchedTeam.teams[0].strStadiumCapacity,
+            stadiumCapacity: fetchedTeam.teams[0].intStadiumCapacity,
             website: fetchedTeam.teams[0].strWebsite,
             facebook: fetchedTeam.teams[0].strFacebook,
             twitter: fetchedTeam.teams[0].strTwitter,
