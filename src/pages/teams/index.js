@@ -16,7 +16,6 @@ import {
     IconButton,
     Typography,
 } from '@mui/material'
-import AddIcon from '@mui/icons-material/Add'
 import DeleteIcon from '@mui/icons-material/Delete'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
@@ -96,6 +95,9 @@ const TeamList = (props) => {
     return (
         <>
             <ResponsiveAppBar />
+            <Typography variant='h3' component='h1' sx={{textAlign: 'center',}}>
+                    Your Saved Teams:
+            </Typography>
             <Box
                 sx={{
                     display: 'flex',
@@ -130,11 +132,6 @@ const TeamList = (props) => {
                         />
 
                         <CardActions disableSpacing>
-                            <IconButton
-                                aria-label="add"
-                                onClick={handleSaveTeam}>
-                                <AddIcon />
-                            </IconButton>
                             <IconButton
                                 aria-label="delete"
                                 onClick={handleDeleteTeam}>

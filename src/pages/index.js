@@ -10,7 +10,7 @@ export default function Home() {
 
             <main>
                 <ResponsiveAppBar />
-                <h1>Welcome to my Next.js App!</h1>
+                <h1>Welcome to my Next.js Sports App!</h1>
             </main>
         </div>
     )
