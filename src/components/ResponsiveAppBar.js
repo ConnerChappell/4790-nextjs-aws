@@ -56,15 +56,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 // search field style stuff end
 
+// user profile settings
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
 
 const ResponsiveAppBar = () => {
     const [anchorElUser, setAnchorElUser] = React.useState(null)
-    const [fetchedTeam, setFetchedTeam] = React.useState({})
+    const [fetchedTeams, setFetchedTeams] = React.useState([])
     const [searchTerms, setSearchTerms] = React.useState('')
     const [dialog, setDialog] = React.useState({
         isOpen: false,
-        team: undefined,
+        teams: undefined,
     })
 
     // user menu handlers
@@ -81,12 +82,12 @@ const ResponsiveAppBar = () => {
     }
     const handleSearch = async () => {
         const sportsDbTeam = await getTeamByName(searchTerms)
-        setFetchedTeam(sportsDbTeam)
-        console.log(sportsDbTeam)
+        setFetchedTeams(sportsDbTeam.teams)
+        console.log(sportsDbTeam.teams)
 
         setDialog({
             isOpen: true,
-            team: fetchedTeam,
+            teams: fetchedTeams,
         })
     }
 
@@ -99,31 +100,33 @@ const ResponsiveAppBar = () => {
 
     // save team handler
     const handleSaveTeam = async () => {
+        console.log(fetchedTeams[0])
+
         const newTeamToSave = {
-            idTeam: fetchedTeam.teams[0].idTeam,
-            team: fetchedTeam.teams[0].strTeam,
-            teamShort: fetchedTeam.teams[0].strTeamShort,
-            teamBadge: fetchedTeam.teams[0].strTeamBadge,
-            teamJersey: fetchedTeam.teams[0].strTeamJersey,
-            teamLogo: fetchedTeam.teams[0].strTeamLogo,
-            teamBanner: fetchedTeam.teams[0].strTeamBanner,
-            teamDescriptionEn: fetchedTeam.teams[0].strDescriptionEN,
-            formedYear: fetchedTeam.teams[0].intFormedYear,
-            sport: fetchedTeam.teams[0].strSport,
-            league: fetchedTeam.teams[0].strLeague,
-            idLeague: fetchedTeam.teams[0].idLeague,
-            stadium: fetchedTeam.teams[0].strStadium,
-            stadiumThumb: fetchedTeam.teams[0].strStadiumThumb,
-            stadiumDescription: fetchedTeam.teams[0].strStadiumDescription,
-            stadiumLocation: fetchedTeam.teams[0].strStadiumLocation,
-            stadiumCapacity: fetchedTeam.teams[0].intStadiumCapacity,
-            website: fetchedTeam.teams[0].strWebsite,
-            facebook: fetchedTeam.teams[0].strFacebook,
-            twitter: fetchedTeam.teams[0].strTwitter,
-            instagram: fetchedTeam.teams[0].strInstagram,
-            youtube: fetchedTeam.teams[0].strYoutube,
-            manager: fetchedTeam.teams[0].strManager,
-            country: fetchedTeam.teams[0].strCountry,
+            idTeam: fetchedTeams[0].idTeam,
+            team: fetchedTeams[0].strTeam,
+            teamShort: fetchedTeams[0].strTeamShort,
+            teamBadge: fetchedTeams[0].strTeamBadge,
+            teamJersey: fetchedTeams[0].strTeamJersey,
+            teamLogo: fetchedTeams[0].strTeamLogo,
+            teamBanner: fetchedTeams[0].strTeamBanner,
+            teamDescriptionEn: fetchedTeams[0].strDescriptionEN,
+            formedYear: fetchedTeams[0].intFormedYear,
+            sport: fetchedTeams[0].strSport,
+            league: fetchedTeams[0].strLeague,
+            idLeague: fetchedTeams[0].idLeague,
+            stadium: fetchedTeams[0].strStadium,
+            stadiumThumb: fetchedTeams[0].strStadiumThumb,
+            stadiumDescription: fetchedTeams[0].strStadiumDescription,
+            stadiumLocation: fetchedTeams[0].strStadiumLocation,
+            stadiumCapacity: fetchedTeams[0].intStadiumCapacity,
+            website: fetchedTeams[0].strWebsite,
+            facebook: fetchedTeams[0].strFacebook,
+            twitter: fetchedTeams[0].strTwitter,
+            instagram: fetchedTeams[0].strInstagram,
+            youtube: fetchedTeams[0].strYoutube,
+            manager: fetchedTeams[0].strManager,
+            country: fetchedTeams[0].strCountry,
         }
 
         try {
@@ -211,7 +214,7 @@ const ResponsiveAppBar = () => {
                 </Container>
             </AppBar>
 
-            <TeamFoundDialog open={dialog.isOpen} team={fetchedTeam} onClose={handleCloseDialog} onSaveTeam={handleSaveTeam} />
+            <TeamFoundDialog open={dialog.isOpen} teams={fetchedTeams} onClose={handleCloseDialog} onSaveTeam={handleSaveTeam} />
         </>
     )
 }
