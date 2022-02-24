@@ -138,6 +138,10 @@ const ResponsiveAppBar = () => {
             console.log(response)
         } catch (err) {
             console.log("Save movie error", err)
+        } finally {
+            setDialog({
+                isOpen: false
+            })
         }
     }
 

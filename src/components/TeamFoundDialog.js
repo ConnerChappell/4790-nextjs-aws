@@ -1,3 +1,4 @@
+import * as React from 'react'
 import {
     // Box,
     Card,
@@ -7,6 +8,8 @@ import {
     IconButton,
     Typography,
     Dialog,
+    DialogTitle,
+    DialogContent,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
 
@@ -14,36 +17,53 @@ const TeamFoundDialog = (props) => {
     const { open, teams, onSaveTeam, onClose } = props
 
     return (
-        <Dialog maxWidth="sm" open={open} onClose={onClose}>
-            {teams.map((team) => (
-                <Card
-                    key={team.idTeam}
-                    sx={{ maxWidth: 225, my: 3, mx: 3, boxShadow: 4 }}>
-                    <CardMedia
-                        sx={{
-                            mt: 2,
-                            mx: 'auto',
-                            padding: '0 16px 0 16px',
-                            width: '100%',
-                        }}
-                        component="img"
-                        image={team.strTeamBadge}
-                        alt="Team Badge"
-                    />
+        <Dialog
+            fullWidth={true}
+            maxWidth="md"
+            scroll="paper"
+            open={open}
+            onClose={onClose}>
+            <DialogTitle>Teams:</DialogTitle>
+            <DialogContent sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
+                {teams.map((team) => (
+                    <Card
+                        key={team.idTeam}
+                        sx={{ maxWidth: 225, my: 3, mx: 3, boxShadow: 4, padding: '16px 0 0 0' }}>
+                        <CardMedia
+                            sx={{
+                                mt: 0,
+                                mx: 'auto',
+                                padding: '0',
+                                width: '85%',
+                            }}
+                            component="img"
+                            image={team.strTeamBadge}
+                            alt="Team Badge"
+                        />
 
-                    <CardContent sx={{ padding: '0', margin: '0 16px 0 16px' }}>
-                        <Typography variant="h6" sx={{ textAlign: 'center' }}>
-                            {team.strTeam}
-                        </Typography>
-                    </CardContent>
+                        <CardContent
+                            sx={{ padding: '0', margin: '.5rem 0 0 0' }}>
+                            <Typography
+                                variant="h6"
+                                sx={{ textAlign: 'center' }}>
+                                {team.strTeam}
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ textAlign: 'center' }}>
+                                {team.strLeague}
+                            </Typography>
+                        </CardContent>
 
-                    <CardActions disableSpacing>
-                        <IconButton aria-label="save" onClick={onSaveTeam}>
-                            <AddIcon />
-                        </IconButton>
-                    </CardActions>
-                </Card>
-            ))}
+                        <CardActions disableSpacing sx={{mt: 2, mb: 0, }}>
+                            <IconButton aria-label="save" onClick={onSaveTeam}>
+                                <AddIcon />
+                            </IconButton>
+                        </CardActions>
+                    </Card>
+                ))}
+            </DialogContent>
         </Dialog>
     )
 }
