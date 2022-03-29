@@ -4,38 +4,21 @@ import config from '../../aws-exports'
 import { createTeamData } from '../../graphql/mutations'
 import { listTeamData } from '../../graphql/queries'
 import ResponsiveAppBar from '../../components/ResponsiveAppBar'
-import { styled } from '@mui/material/styles'
 import {
     Box,
     Card,
     CardHeader,
     CardMedia,
-    CardContent,
     CardActions,
-    Collapse,
     IconButton,
     Typography,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 Amplify.configure(config)
 
-const ExpandMore = styled((props) => {
-    const { expand, ...other } = props
-    return <IconButton {...other} />
-})(({ theme, expand }) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-        duration: theme.transitions.duration.shortest,
-    }),
-}))
-
 // 2. Nextjs will execute this component function AFTER getStaticProps
 const TeamList = (props) => {
-    const [expanded, setExpanded] = React.useState(false)
-
     const { teamList } = props
     console.log(teamList)
 
@@ -87,11 +70,6 @@ const TeamList = (props) => {
         console.log('Got to delete this team')
     }
 
-    // handles expand for more team info click
-    const handleExpandClick = () => {
-        setExpanded(!expanded)
-    }
-
     return (
         <>
             <ResponsiveAppBar />
@@ -137,36 +115,7 @@ const TeamList = (props) => {
                                 onClick={handleDeleteTeam}>
                                 <DeleteIcon />
                             </IconButton>
-
-                            <ExpandMore
-                                expand={expanded}
-                                onClick={handleExpandClick}
-                                aria-expanded={expanded}
-                                aria-label="show more">
-                                <ExpandMoreIcon />
-                            </ExpandMore>
                         </CardActions>
-
-                        <Collapse in={expanded} timeout="auto" unmountOnExit>
-                            <CardContent>
-                                <Typography gutterBottom variant="h6">
-                                    Founded: {team.formedYear}
-                                </Typography>
-
-                                <Typography gutterBottom variant="h6">
-                                    Stadium: {team.stadium}
-                                </Typography>
-                                <CardMedia
-                                    component="img"
-                                    width="auto"
-                                    image={team.stadiumThumb}
-                                    alt="Team Stadium"
-                                />
-                                <Typography gutterBottom variant="h6">
-                                    Capacity: {team.stadiumCapacity}
-                                </Typography>
-                            </CardContent>
-                        </Collapse>
                     </Card>
                 ))}
             </Box>

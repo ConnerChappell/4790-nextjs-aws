@@ -137,7 +137,7 @@ const ResponsiveAppBar = () => {
             })
             console.log(response)
         } catch (err) {
-            console.log("Save movie error", err)
+            console.log("Save team error", err)
         } finally {
             setDialog({
                 isOpen: false
