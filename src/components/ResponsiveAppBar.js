@@ -1,9 +1,9 @@
 import * as React from 'react'
 import Link from 'next/link'
-import Amplify, {API} from 'aws-amplify'
-import config from '../aws-exports'
+import { DataStore } from 'aws-amplify'
+// import config from '../aws-exports'
 import { getTeamByName } from '../utils/api-util'
-import { createTeamData } from '../graphql/mutations'
+// import { createTeamData } from '../graphql/mutations'
 import TeamFoundDialog from './TeamFoundDialog'
 import { styled, alpha } from '@mui/material/styles'
 import {
@@ -21,8 +21,7 @@ import {
     InputBase,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
-
-Amplify.configure(config)
+import { TeamData } from '../models'
 
 // search field style stuff start
 const Search = styled('div')(({ theme }) => ({
@@ -101,41 +100,38 @@ const ResponsiveAppBar = () => {
     // save team handler
     const handleSaveTeam = async () => {
         console.log(fetchedTeams[0])
-
-        const newTeamToSave = {
-            idTeam: fetchedTeams[0].idTeam,
-            team: fetchedTeams[0].strTeam,
-            teamShort: fetchedTeams[0].strTeamShort,
-            teamBadge: fetchedTeams[0].strTeamBadge,
-            teamJersey: fetchedTeams[0].strTeamJersey,
-            teamLogo: fetchedTeams[0].strTeamLogo,
-            teamBanner: fetchedTeams[0].strTeamBanner,
-            teamDescriptionEn: fetchedTeams[0].strDescriptionEN,
-            formedYear: fetchedTeams[0].intFormedYear,
-            sport: fetchedTeams[0].strSport,
-            league: fetchedTeams[0].strLeague,
-            idLeague: fetchedTeams[0].idLeague,
-            stadium: fetchedTeams[0].strStadium,
-            stadiumThumb: fetchedTeams[0].strStadiumThumb,
-            stadiumDescription: fetchedTeams[0].strStadiumDescription,
-            stadiumLocation: fetchedTeams[0].strStadiumLocation,
-            stadiumCapacity: fetchedTeams[0].intStadiumCapacity,
-            website: fetchedTeams[0].strWebsite,
-            facebook: fetchedTeams[0].strFacebook,
-            twitter: fetchedTeams[0].strTwitter,
-            instagram: fetchedTeams[0].strInstagram,
-            youtube: fetchedTeams[0].strYoutube,
-            manager: fetchedTeams[0].strManager,
-            country: fetchedTeams[0].strCountry,
-        }
-
         try {
-            const response = await API.graphql({
-                query: createTeamData,
-                variables: { input: newTeamToSave},
-                authMode: 'API_KEY'
-            })
-            console.log(response)
+            await DataStore.save(
+                new TeamData(
+                    {
+                        idTeam: fetchedTeams[0].idTeam,
+                        team: fetchedTeams[0].strTeam,
+                        teamShort: fetchedTeams[0].strTeamShort,
+                        teamBadge: fetchedTeams[0].strTeamBadge,
+                        teamJersey: fetchedTeams[0].strTeamJersey,
+                        teamLogo: fetchedTeams[0].strTeamLogo,
+                        teamBanner: fetchedTeams[0].strTeamBanner,
+                        teamDescriptionEn: fetchedTeams[0].strDescriptionEN,
+                        formedYear: fetchedTeams[0].intFormedYear,
+                        sport: fetchedTeams[0].strSport,
+                        league: fetchedTeams[0].strLeague,
+                        idLeague: fetchedTeams[0].idLeague,
+                        stadium: fetchedTeams[0].strStadium,
+                        stadiumThumb: fetchedTeams[0].strStadiumThumb,
+                        stadiumDescription: fetchedTeams[0].strStadiumDescription,
+                        stadiumLocation: fetchedTeams[0].strStadiumLocation,
+                        stadiumCapacity: fetchedTeams[0].intStadiumCapacity,
+                        website: fetchedTeams[0].strWebsite,
+                        facebook: fetchedTeams[0].strFacebook,
+                        twitter: fetchedTeams[0].strTwitter,
+                        instagram: fetchedTeams[0].strInstagram,
+                        youtube: fetchedTeams[0].strYoutube,
+                        manager: fetchedTeams[0].strManager,
+                        country: fetchedTeams[0].strCountry,
+                    }
+                )
+            )
+            console.log("Team was saved")
         } catch (err) {
             console.log("Save team error", err)
         } finally {

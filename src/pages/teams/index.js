@@ -1,8 +1,10 @@
 import * as React from 'react'
-import Amplify, { API } from 'aws-amplify'
+import useSWR from 'swr'
+import Amplify, { DataStore } from 'aws-amplify'
 import config from '../../aws-exports'
-import { createTeamData } from '../../graphql/mutations'
-import { listTeamData } from '../../graphql/queries'
+import { TeamData } from '../../models'
+// import { createTeamData, deleteTeamData } from '../../graphql/mutations'
+// import { listTeamData } from '../../graphql/queries'
 import ResponsiveAppBar from '../../components/ResponsiveAppBar'
 import {
     Box,
@@ -18,12 +20,12 @@ import DeleteIcon from '@mui/icons-material/Delete'
 Amplify.configure(config)
 
 // 2. Nextjs will execute this component function AFTER getStaticProps
-const TeamList = (props) => {
-    const { teamList } = props
-    console.log(teamList)
+const TeamList = () => {
+    const [teamList, setTeamList] = React.useState([])
+    // console.log(teamList)
 
     // handles adding a team
-    const handleSaveTeam = async () => {
+  /*   const handleSaveTeam = async () => {
         console.log(`Gonna add the team: ${team.teams[0].strTeam} now`)
         const newTeamToSave = {
             idTeam: team.teams[0].idTeam,
@@ -63,12 +65,32 @@ const TeamList = (props) => {
         } catch (error) {
             console.log('Save team error', error)
         }
+    } */
+
+    // handles deleting a team using DataStore
+    const handleDeleteTeam = async (team) => {
+        try {
+            const teamToDelete = await DataStore.query(TeamData, team.id)
+            console.log(teamToDelete)
+            await DataStore.delete(teamToDelete)
+        } catch (error) {
+            console.log("Delete team error: ", error)
+        }
     }
 
-    // handles deleting a team
-    const handleDeleteTeam = () => {
-        console.log('Got to delete this team')
+    const fetcher = async () => {
+        try {
+            let tempList = await DataStore.query(TeamData)
+            setTeamList(tempList)
+        } catch (error) {
+            console.log("Retrieve team list error", error)
+        }
+        return teamList
     }
+    const { data, error } = useSWR('/teams', fetcher, {refreshInterval: 100})
+
+    if (error) return <div>Failed to load list of teams</div>
+    if (!data) return <div>Loading...</div>
 
     return (
         <>
@@ -82,7 +104,7 @@ const TeamList = (props) => {
                     flexWrap: 'wrap',
                     justifyContent: 'center',
                 }}>
-                {teamList.map((team) => (
+                {teamList && teamList.map((team) => (
                     <Card
                         key={team.id}
                         sx={{ maxWidth: 350, my: 3, mx: 1.5, boxShadow: 4 }}>
@@ -112,7 +134,7 @@ const TeamList = (props) => {
                         <CardActions disableSpacing>
                             <IconButton
                                 aria-label="delete"
-                                onClick={handleDeleteTeam}>
+                                onClick={() => handleDeleteTeam(team)}>
                                 <DeleteIcon />
                             </IconButton>
                         </CardActions>
@@ -124,7 +146,7 @@ const TeamList = (props) => {
 }
 
 // 1. Nextjs will execute this function first. It is never visible to the client
-export async function getStaticProps() {
+/* export async function getStaticProps() {
     let teamList = []
 
     try {
@@ -141,7 +163,8 @@ export async function getStaticProps() {
         props: {
             teamList,
         },
+        revalidate: 10
     }
-}
+} */
 
 export default TeamList
