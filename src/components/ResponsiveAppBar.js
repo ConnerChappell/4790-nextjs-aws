@@ -79,6 +79,11 @@ const ResponsiveAppBar = () => {
     const handleChange = (event) => {
         setSearchTerms(event.target.value)
     }
+    const handleKeyUp = (event) => {
+        if (event.key === 'Enter') {
+            handleSearch()
+        }
+    }
     const handleSearch = async () => {
         const sportsDbTeam = await getTeamByName(searchTerms)
         setFetchedTeams(sportsDbTeam.teams)
@@ -166,6 +171,7 @@ const ResponsiveAppBar = () => {
                                 placeholder="Search…"
                                 inputProps={{ 'aria-label': 'search' }}
                                 onChange={handleChange}
+                                onKeyUp={handleKeyUp}
                                 value={searchTerms}
                             />
                             <IconButton onClick={handleSearch}>
