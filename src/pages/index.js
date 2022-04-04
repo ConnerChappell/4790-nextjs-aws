@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { Typography } from '@mui/material'
 
 export default function Home() {
     return (
@@ -8,7 +9,9 @@ export default function Home() {
             </Head>
 
             <main>
-                <h1>Welcome to my Next.js Sports App!</h1>
+            <Typography variant='h3' component='h1' sx={{textAlign: 'center',}}>
+                    Welcome to my Next.js Sports App
+            </Typography>
             </main>
         </div>
     )

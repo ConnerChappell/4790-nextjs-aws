@@ -49,7 +49,7 @@ const TeamList = () => {
     return (
         <>
             <Typography variant='h3' component='h1' sx={{textAlign: 'center',}}>
-                    Your Saved Teams:
+                    Saved Teams:
             </Typography>
             <Box
                 sx={{
