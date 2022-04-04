@@ -3,7 +3,6 @@ import useSWR from 'swr'
 import Amplify, { DataStore } from 'aws-amplify'
 import config from '../../aws-exports'
 import { TeamData } from '../../models'
-import ResponsiveAppBar from '../../components/ResponsiveAppBar'
 import {
     Box,
     Card,
@@ -49,7 +48,6 @@ const TeamList = () => {
 
     return (
         <>
-            <ResponsiveAppBar />
             <Typography variant='h3' component='h1' sx={{textAlign: 'center',}}>
                     Your Saved Teams:
             </Typography>

@@ -55,10 +55,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }))
 // search field style stuff end
 
-// user profile settings
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout']
-
-const ResponsiveAppBar = () => {
+const ResponsiveAppBar = ({user, signOut}) => {
     const [anchorElUser, setAnchorElUser] = React.useState(null)
     const [fetchedTeams, setFetchedTeams] = React.useState([])
     const [searchTerms, setSearchTerms] = React.useState('')
@@ -205,15 +202,8 @@ const ResponsiveAppBar = () => {
                                 }}
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
-                                {settings.map((setting) => (
-                                    <MenuItem
-                                        key={setting}
-                                        onClick={handleCloseUserMenu}>
-                                        <Typography textAlign="center">
-                                            {setting}
-                                        </Typography>
-                                    </MenuItem>
-                                ))}
+                                <MenuItem>Profile</MenuItem>
+                                <MenuItem onClick={signOut}>Logout</MenuItem>
                             </Menu>
                         </Box>
                     </Toolbar>

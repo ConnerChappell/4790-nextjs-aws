@@ -1,5 +1,23 @@
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap'); */
 
+/* amplify authenticator sign in/sign up styles */
+.amplify-tabs-item {
+  color: #000 !important;
+}
+.amplify-tabs-item[data-state=active] {
+  color: #d00 !important;
+  border-color: #d00 !important;
+}
+.amplify-button[data-variation=link] {
+  color: #d00 !important;
+}
+.amplify-button[data-variation=link]:hover {
+  background-color: rgba(221, 0, 0, .08) !important;
+}
+.amplify-button[data-variation=primary] {
+  background-color: #d00 !important;
+}
+
 * {
   box-sizing: border-box;
 }
