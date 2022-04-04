@@ -10,6 +10,12 @@
       "StackName": "amplify-4790nextjsaws-staging-214534",
       "StackId": "arn:aws:cloudformation:us-west-2:243010920610:stack/amplify-4790nextjsaws-staging-214534/4785e270-885f-11ec-9329-0281d1d79955",
       "AmplifyAppId": "d2woczhe1o2u03"
+    },
+    "categories": {
+      "auth": {
+        "4790nextjsawsb9205a50": {},
+        "4790nextjsaws70a7f75d": {}
+      }
     }
   }
 }
