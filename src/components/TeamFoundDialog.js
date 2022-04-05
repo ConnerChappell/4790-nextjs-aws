@@ -57,8 +57,8 @@ const TeamFoundDialog = (props) => {
                         </CardContent>
 
                         <CardActions disableSpacing sx={{mt: 1, mb: 0, }}>
-                            <IconButton aria-label="save" onClick={onSaveTeam}>
-                                <AddIcon />
+                            <IconButton data-team={JSON.stringify(team)} aria-label="save" onClick={onSaveTeam}>
+                                <AddIcon data-team={JSON.stringify(team)} />
                             </IconButton>
                         </CardActions>
                     </Card>

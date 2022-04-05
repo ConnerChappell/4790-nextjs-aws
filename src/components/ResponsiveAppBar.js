@@ -1,9 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { DataStore } from 'aws-amplify'
-// import config from '../aws-exports'
 import { getTeamByName } from '../utils/api-util'
-// import { createTeamData } from '../graphql/mutations'
 import TeamFoundDialog from './TeamFoundDialog'
 import { styled, alpha } from '@mui/material/styles'
 import {
@@ -100,35 +98,37 @@ const ResponsiveAppBar = ({ user, signOut }) => {
     }
 
     // save team handler
-    const handleSaveTeam = async () => {
-        console.log(fetchedTeams[0])
+    const handleSaveTeam = async (event) => {
+        // console.log(event.target.dataset.team)
         try {
+            const teamToSave = JSON.parse(event.target.dataset.team)
+
             await DataStore.save(
                 new TeamData({
-                    idTeam: fetchedTeams[0].idTeam,
-                    team: fetchedTeams[0].strTeam,
-                    teamShort: fetchedTeams[0].strTeamShort,
-                    teamBadge: fetchedTeams[0].strTeamBadge,
-                    teamJersey: fetchedTeams[0].strTeamJersey,
-                    teamLogo: fetchedTeams[0].strTeamLogo,
-                    teamBanner: fetchedTeams[0].strTeamBanner,
-                    teamDescriptionEn: fetchedTeams[0].strDescriptionEN,
-                    formedYear: fetchedTeams[0].intFormedYear,
-                    sport: fetchedTeams[0].strSport,
-                    league: fetchedTeams[0].strLeague,
-                    idLeague: fetchedTeams[0].idLeague,
-                    stadium: fetchedTeams[0].strStadium,
-                    stadiumThumb: fetchedTeams[0].strStadiumThumb,
-                    stadiumDescription: fetchedTeams[0].strStadiumDescription,
-                    stadiumLocation: fetchedTeams[0].strStadiumLocation,
-                    stadiumCapacity: fetchedTeams[0].intStadiumCapacity,
-                    website: fetchedTeams[0].strWebsite,
-                    facebook: fetchedTeams[0].strFacebook,
-                    twitter: fetchedTeams[0].strTwitter,
-                    instagram: fetchedTeams[0].strInstagram,
-                    youtube: fetchedTeams[0].strYoutube,
-                    manager: fetchedTeams[0].strManager,
-                    country: fetchedTeams[0].strCountry,
+                    idTeam: teamToSave.idTeam,
+                    team: teamToSave.strTeam,
+                    teamShort: teamToSave.strTeamShort,
+                    teamBadge: teamToSave.strTeamBadge,
+                    teamJersey: teamToSave.strTeamJersey,
+                    teamLogo: teamToSave.strTeamLogo,
+                    teamBanner: teamToSave.strTeamBanner,
+                    teamDescriptionEn: teamToSave.strDescriptionEN,
+                    formedYear: teamToSave.intFormedYear,
+                    sport: teamToSave.strSport,
+                    league: teamToSave.strLeague,
+                    idLeague: teamToSave.idLeague,
+                    stadium: teamToSave.strStadium,
+                    stadiumThumb: teamToSave.strStadiumThumb,
+                    stadiumDescription: teamToSave.strStadiumDescription,
+                    stadiumLocation: teamToSave.strStadiumLocation,
+                    stadiumCapacity: teamToSave.intStadiumCapacity,
+                    website: teamToSave.strWebsite,
+                    facebook: teamToSave.strFacebook,
+                    twitter: teamToSave.strTwitter,
+                    instagram: teamToSave.strInstagram,
+                    youtube: teamToSave.strYoutube,
+                    manager: teamToSave.strManager,
+                    country: teamToSave.strCountry,
                 })
             )
             console.log('Team was saved')
