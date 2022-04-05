@@ -1,7 +1,7 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { DataStore } from 'aws-amplify'
-import { getTeamByName } from '../utils/api-util'
+// import { getTeamByName } from '../utils/api-util'
 import TeamFoundDialog from './TeamFoundDialog'
 import { styled, alpha } from '@mui/material/styles'
 import {
@@ -9,7 +9,6 @@ import {
     Box,
     Toolbar,
     IconButton,
-    Typography,
     Menu,
     Container,
     Avatar,
@@ -80,9 +79,20 @@ const ResponsiveAppBar = ({ user, signOut }) => {
         }
     }
     const handleSearch = async () => {
-        const sportsDbTeam = await getTeamByName(searchTerms)
-        setFetchedTeams(sportsDbTeam.teams)
-        console.log(sportsDbTeam.teams)
+        if (!searchTerms) return
+        const sportsDbTeam = await fetch('/api/team', {
+            method: 'POST',
+            body: JSON.stringify({ name: searchTerms }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+
+        setFetchedTeams(await sportsDbTeam.json())
+
+        // const sportsDbTeam = await getTeamByName(searchTerms)
+        // setFetchedTeams(sportsDbTeam.teams)
+        // console.log(sportsDbTeam.teams)
 
         setDialog({
             isOpen: true,
