@@ -25,7 +25,7 @@ const TeamFoundDialog = (props) => {
             onClose={onClose}>
             <DialogTitle>Teams:</DialogTitle>
             <DialogContent sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-                {teams.map((team) => (
+                {teams && teams.map((team) => (
                     <Card
                         key={team.idTeam}
                         sx={{ maxWidth: 225, my: 3, mx: 3, boxShadow: 4, padding: '16px 0 0 0' }}>

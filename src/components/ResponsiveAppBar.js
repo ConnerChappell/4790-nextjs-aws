@@ -82,7 +82,7 @@ const ResponsiveAppBar = ({ user, signOut }) => {
         if (!searchTerms) return
         const sportsDbTeam = await fetch('/api/team', {
             method: 'POST',
-            body: JSON.stringify({ name: searchTerms }),
+            body: JSON.stringify({ team: searchTerms }),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -96,7 +96,7 @@ const ResponsiveAppBar = ({ user, signOut }) => {
 
         setDialog({
             isOpen: true,
-            teams: fetchedTeams,
+            teams: fetchedTeams.teams,
         })
     }
 
@@ -228,7 +228,7 @@ const ResponsiveAppBar = ({ user, signOut }) => {
 
             <TeamFoundDialog
                 open={dialog.isOpen}
-                teams={fetchedTeams}
+                teams={fetchedTeams.teams}
                 onClose={handleCloseDialog}
                 onSaveTeam={handleSaveTeam}
             />
