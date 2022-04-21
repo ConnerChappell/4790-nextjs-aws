@@ -1,7 +1,6 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { DataStore } from 'aws-amplify'
-// import { getTeamByName } from '../utils/api-util'
 import TeamFoundDialog from './TeamFoundDialog'
 import { styled, alpha } from '@mui/material/styles'
 import {
@@ -67,6 +66,10 @@ const ResponsiveAppBar = ({ user, signOut }) => {
     }
     const handleCloseUserMenu = () => {
         setAnchorElUser(null)
+    }
+    const handleSignOut = () => {
+        DataStore.clear()
+        signOut()
     }
 
     // search field handlers
@@ -219,7 +222,7 @@ const ResponsiveAppBar = ({ user, signOut }) => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}>
                                 <MenuItem>Profile</MenuItem>
-                                <MenuItem onClick={signOut}>Logout</MenuItem>
+                                <MenuItem onClick={handleSignOut}>Logout</MenuItem>
                             </Menu>
                         </Box>
                     </Toolbar>
