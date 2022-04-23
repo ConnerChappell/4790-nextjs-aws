@@ -1,4 +1,4 @@
-type TeamData @model @auth(rules: [{allow: public}]) {
+type TeamData @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public}]) {
   id: ID!
   idTeam: String
   team: String
@@ -25,3 +25,4 @@ type TeamData @model @auth(rules: [{allow: public}]) {
   manager: String
   country: String
 }
+ 

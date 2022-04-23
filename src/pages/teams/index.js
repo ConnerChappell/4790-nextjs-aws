@@ -1,7 +1,6 @@
 import * as React from 'react'
 import useSWR from 'swr'
-import Amplify, { DataStore } from 'aws-amplify'
-import config from '../../aws-exports'
+import { DataStore } from 'aws-amplify'
 import { TeamData } from '../../models'
 import {
     Box,
@@ -13,8 +12,6 @@ import {
     Typography,
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
-
-Amplify.configure(config)
 
 // 2. Nextjs will execute this component function AFTER getStaticProps
 const TeamList = () => {

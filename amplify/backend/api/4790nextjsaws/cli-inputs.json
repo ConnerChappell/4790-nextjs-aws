@@ -3,16 +3,19 @@
   "serviceConfiguration": {
     "apiName": "4790nextjsaws",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/Users/conner/Documents/uvu-spring2022/DGM-4790/4790-nextjs-aws/amplify/backend/api/4790nextjsaws/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-59fe9681-f3b3-4f06-9c2c-349f8dabf57e/amplify/backend/api/4790nextjsaws/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
-      "expirationTime": 120,
-      "apiKeyExpirationDate": "2022-06-08T22:32:50.943Z",
-      "keyDescription": "api key description"
+      "keyDescription": "api key description",
+      "expirationTime": 30
     },
     "additionalAuthTypes": [
       {
         "mode": "AWS_IAM"
+      },
+      {
+        "mode": "AMAZON_COGNITO_USER_POOLS",
+        "cognitoUserPoolId": "auth4790nextjsaws70a7f75d"
       }
     ],
     "conflictResolution": {

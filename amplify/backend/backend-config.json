@@ -8,18 +8,32 @@
           "defaultAuthentication": {
             "authenticationType": "API_KEY",
             "apiKeyConfig": {
-              "apiKeyExpirationDays": 120,
-              "apiKeyExpirationDate": "2022-06-08T22:32:50.943Z",
+              "apiKeyExpirationDays": 30,
               "description": "api key description"
             }
           },
           "additionalAuthenticationProviders": [
             {
               "authenticationType": "AWS_IAM"
+            },
+            {
+              "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+              "userPoolConfig": {
+                "userPoolId": "auth4790nextjsaws70a7f75d"
+              }
             }
           ]
         }
-      }
+      },
+      "dependsOn": [
+        {
+          "category": "auth",
+          "resourceName": "4790nextjsaws70a7f75d",
+          "attributes": [
+            "UserPoolId"
+          ]
+        }
+      ]
     }
   },
   "auth": {

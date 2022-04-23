@@ -67,8 +67,8 @@ const ResponsiveAppBar = ({ user, signOut }) => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null)
     }
-    const handleSignOut = () => {
-        DataStore.clear()
+    const handleSignOut = async () => {
+        await DataStore.clear()
         signOut()
     }
 
