@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "4790nextjsaws",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-59fe9681-f3b3-4f06-9c2c-349f8dabf57e/amplify/backend/api/4790nextjsaws/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-78c387e3-cb75-4a53-ae8c-18a802f1a0e7/amplify/backend/api/4790nextjsaws/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",

@@ -1,6 +1,8 @@
 import * as React from 'react'
 import useSWR from 'swr'
-import { DataStore } from 'aws-amplify'
+import Amplify, { DataStore, AuthModeStrategyType } from 'aws-amplify'
+import { useAuthenticator } from '@aws-amplify/ui-react'
+import config from '../../aws-exports'
 import { TeamData } from '../../models'
 import {
     Box,
@@ -14,10 +16,19 @@ import {
 } from '@mui/material'
 import DeleteIcon from '@mui/icons-material/Delete'
 
+// amplify configure multi auth stuff
+Amplify.configure({
+    ...config,
+    DataStore: {
+        authModeStrategyType: AuthModeStrategyType.MULTI_AUTH,
+    },
+})
+
 // 2. Nextjs will execute this component function AFTER getStaticProps
 const TeamList = () => {
     const [teamList, setTeamList] = React.useState([])
     // console.log(teamList)
+    const { user } = useAuthenticator((context) => [context.user])
     // snackbar states
     const [openSnackbar, setOpenSnackbar] = React.useState(false)
     const [snackbarMessage, setSnackbarMessage] = React.useState('')
@@ -112,11 +123,13 @@ const TeamList = () => {
                             />
 
                             <CardActions disableSpacing>
-                                <IconButton
-                                    aria-label="delete"
-                                    onClick={() => handleDeleteTeam(team)}>
-                                    <DeleteIcon />
-                                </IconButton>
+                                {user.username === team.owner && (
+                                    <IconButton
+                                        aria-label="delete"
+                                        onClick={() => handleDeleteTeam(team)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                )}
                             </CardActions>
                         </Card>
                     ))}

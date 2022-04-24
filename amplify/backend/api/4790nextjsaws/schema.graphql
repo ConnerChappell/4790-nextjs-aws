@@ -1,4 +1,4 @@
-type TeamData @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public}]) {
+type TeamData @model @auth(rules: [{allow: owner}, {allow: private, operations: [read]}, {allow: public, operations: [read]}]) {
   id: ID!
   idTeam: String
   team: String
