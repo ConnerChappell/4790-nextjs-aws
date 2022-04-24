@@ -15,6 +15,7 @@ import {
     Tooltip,
     MenuItem,
     InputBase,
+    Snackbar,
 } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 import { TeamData } from '../models'
@@ -59,6 +60,10 @@ const ResponsiveAppBar = ({ user, signOut }) => {
         isOpen: false,
         teams: undefined,
     })
+    // Snackbar states
+    const [openSnackbar, setOpenSnackbar] = React.useState(false)
+    const [snackbarMessage, setSnackbarMessage] = React.useState('')
+    const [snackbarSeverity, setSnackbarSeverity] = React.useState('')
 
     // user menu handlers
     const handleOpenUserMenu = (event) => {
@@ -110,11 +115,25 @@ const ResponsiveAppBar = ({ user, signOut }) => {
         })
     }
 
+    // snackbar handlers
+    const handleToast = (message, severity) => {
+        setSnackbarMessage(message)
+        setSnackbarSeverity(severity)
+        setOpenSnackbar(true)
+    }
+    const handleCloseSnackbar = (event, reason) => {
+        if (reason === 'clickaway') {
+            return
+        }
+        setOpenSnackbar(false)
+    }
+
     // save team handler
     const handleSaveTeam = async (event) => {
         // console.log(event.target.dataset.team)
         try {
             const teamToSave = JSON.parse(event.target.dataset.team)
+            handleToast(`The team: "${teamToSave.strTeam}" was saved`, 'success')
 
             await DataStore.save(
                 new TeamData({
@@ -147,6 +166,7 @@ const ResponsiveAppBar = ({ user, signOut }) => {
             console.log('Team was saved')
         } catch (err) {
             console.log('Save team error', err)
+            handleToast(`Error: could not save team`, 'error')
         } finally {
             setDialog({
                 isOpen: false,
@@ -234,6 +254,14 @@ const ResponsiveAppBar = ({ user, signOut }) => {
                 teams={fetchedTeams.teams}
                 onClose={handleCloseDialog}
                 onSaveTeam={handleSaveTeam}
+            />
+
+            <Snackbar
+                open={openSnackbar}
+                autoHideDuration={5000}
+                onClose={handleCloseSnackbar}
+                message={snackbarMessage}
+                severity={snackbarSeverity}
             />
         </>
     )
