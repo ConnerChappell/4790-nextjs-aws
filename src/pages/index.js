@@ -14,7 +14,7 @@ export default function Home() {
 
             <main>
             <Typography variant='h3' component='h1' sx={{textAlign: 'center',}}>
-                    Welcome to my Next.js Sports App {user.attributes.preferred_username}
+                    Welcome to my Next.js Sports App {user.attributes?.preferred_username}
             </Typography>
             </main>
         </div>

@@ -118,7 +118,7 @@ const TeamList = () => {
                                     width: '100%',
                                 }}
                                 component="img"
-                                image={team.teamJersey}
+                                image={team.teamJersey ? team.teamJersey : 'plain-black-jersey.png'}
                                 alt="Team Jersey"
                             />
 

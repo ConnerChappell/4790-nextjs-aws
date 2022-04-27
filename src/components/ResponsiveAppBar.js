@@ -132,7 +132,7 @@ const ResponsiveAppBar = ({ user, signOut }) => {
     const handleSaveTeam = async (event) => {
         // console.log(event.target.dataset.team)
         try {
-            const teamToSave = JSON.parse(event.target.dataset.team)
+            const teamToSave = JSON.parse(event.currentTarget.dataset.team)
             handleToast(`The team: "${teamToSave.strTeam}" was saved`, 'success')
 
             await DataStore.save(
