@@ -19,7 +19,7 @@ const TeamFoundDialog = (props) => {
     return (
         <Dialog
             fullWidth={true}
-            maxWidth="md"
+            maxWidth="lg"
             scroll="paper"
             open={open}
             onClose={onClose}>
