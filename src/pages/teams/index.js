@@ -77,12 +77,9 @@ const TeamList = () => {
 
     return (
         <>
-            <Typography
-                variant="h3"
-                component="h1"
-                sx={{ textAlign: 'center' }}>
-                Saved Teams:
-            </Typography>
+            <Typography sx={{ textAlign: 'center', fontSize: 72, mt: 4 }}>
+                    Saved Teams:
+                </Typography>
             <Box
                 sx={{
                     display: 'flex',
